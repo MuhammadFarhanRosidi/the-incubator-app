@@ -2,7 +2,7 @@
 
 Competencies and Tools :
 - OOP
-- MVC Callback
+- MVC Asynchronous
 - Schema
 - PostgreSQL
 - Express
