@@ -1,0 +1,77 @@
+<%- include('./partial/_head.ejs', {title: 'The Incubator Detail'}) %>
+<body>
+    <%- include('./partial/_navbar.ejs', {page: 'home'}) %>
+    <div class="container mx-auto px-4">    
+            <h2 class="text-4xl font-extrabold dark:text-white"><%= data.name %></h2>
+            <p class="my-4 text-lg font-bold text-gray-500">Code of Incubator : <%= data.code %></p>
+            <p class="my-4 text-lg text-gray-500">Click <a href="/incubators/<%= data.id %>/startUp/add" class="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700">Add</a>
+                to add StartUp</p>
+            <% if (!data.StartUps.length) { %>
+                <p class="my-4 text-lg text-gray-500">There is no StartUp yet</p>
+                <p class="my-4 text-lg font-bold text-gray-500">Valuation All Start-Up : -</p>
+            <% } %>
+    </div>
+    <% if (data.StartUps.length) { %>
+        <div class="container mx-auto px-4">
+            <div class="relative overflow-x-auto">
+              <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                  <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                      <tr>
+                          <th scope="col" class="px-6 py-3">
+                              Start-Up Name
+                          </th>
+                          <th scope="col" class="px-6 py-3">
+                              Founder Name
+                          </th>
+                          <th scope="col" class="px-6 py-3">
+                              Age
+                          </th>
+                          <th scope="col" class="px-6 py-3">
+                              Education
+                          </th>
+                          <th scope="col" class="px-6 py-3">
+                              Role of Founder
+                          </th>
+                          <th scope="col" class="px-6 py-3">
+                              Valuation
+                          </th>
+                          <th scope="col" class="px-6 py-3">
+                              Action
+                          </th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                    <% data.StartUps.forEach(el => { %>
+                      <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                        <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                            <%= el.startUpName %>
+                        </td>
+                        <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                            <%= el.founderName %>
+                        </td>
+                        <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                            <%= new Date().getFullYear() - new Date(el.dateFound).getFullYear() %>
+                        </td>
+                        <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                            <%= el.educationOfFounder %>
+                        </td>
+                        <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                            <%= el.roleOfFounder %>
+                        </td>
+                        <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                            <%= rupiah(el.valuation) %>
+                        </td>
+                        <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                            <a href="" class="text-gray-900 hover:text-white border border-gray-800 hover:bg-gray-900 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-gray-600 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-800">Edit</a>
+                            <a href="" class="text-red-700 hover:text-white border border-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:hover:bg-red-600 dark:focus:ring-red-900">Delete</a>
+                        </td>
+                      </tr>
+                    <% }) %>
+                  </tbody>
+              </table>
+              <p class="my-4 text-lg font-bold text-gray-500">Valuation of Incubator : <%= rupiah(sumValuation(data.StartUps)) %></p>
+            </div>
+        </div>
+        <% } %>
+</body>
+</html>

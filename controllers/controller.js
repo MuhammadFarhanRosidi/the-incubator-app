@@ -1,5 +1,7 @@
 const { Op } = require("sequelize")
 const {Incubator, StartUp} = require('../models/index')
+const rupiah = require("../helpers/formatValuation")
+const sumValuation = require("../helpers/sumValuation")
 
 class Controller {
     static async home(req, res) {
@@ -39,7 +41,13 @@ class Controller {
 
     static async showDetailIncubator(req, res) {
         try {
-            
+            let {incubatorId} = req.params
+            let data = await Incubator.findByPk(+incubatorId, {
+                include: {
+                    model: StartUp
+                }
+            })
+            res.render('incubatorDetail', {data, rupiah, sumValuation})
         } catch (error) {
             res.send(error)
         }
@@ -47,7 +55,13 @@ class Controller {
 
     static async renderAddStartUp(req, res) {
         try {
-            
+            let {incubatorId} = req.params
+            let data = await Incubator.findByPk(+incubatorId, {
+                include: {
+                    model: StartUp
+                }
+            })
+            res.render('addStartUp', {data})
         } catch (error) {
             res.send(error)
         }
@@ -55,7 +69,10 @@ class Controller {
 
     static async handlerAddStartUp(req, res) {
         try {
-            
+            let {incubatorId} = req.params
+            let {startUpName, founderName, dateFound, educationOfFounder, roleOfFounder, valuation} = req.body
+            await StartUp.create({startUpName, founderName, dateFound, educationOfFounder, roleOfFounder, valuation, IncubatorId : incubatorId})
+            res.redirect(`/incubators/${incubatorId}`)
         } catch (error) {
             res.send(error)
         }
