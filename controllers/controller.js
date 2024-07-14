@@ -1,3 +1,6 @@
+const { Op } = require("sequelize")
+const {Incubator, StartUp} = require('../models/index')
+
 class Controller {
     static async home(req, res) {
         try {
@@ -9,7 +12,8 @@ class Controller {
 
     static async showDataIncubator(req, res) {
         try {
-            res.render('index')
+            let data = await Incubator.findAll()
+            res.render('index', {data})
         } catch (error) {
             res.send(error)
         }
@@ -17,7 +21,7 @@ class Controller {
 
     static async renderAddIncubator(req, res) {
         try {
-            
+            res.render('addIncubator')
         } catch (error) {
             res.send(error)
         }
@@ -25,7 +29,9 @@ class Controller {
 
     static async handlerAddIncubator(req, res) {
         try {
-            
+            let {name, location, level} = req.body
+            await Incubator.create({name, location, level})
+            res.redirect('/')
         } catch (error) {
             res.send(error)
         }

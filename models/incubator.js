@@ -11,6 +11,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      Incubator.hasMany(models.StartUp, {foreignKey : 'IncubatorId'})
     }
   }
   Incubator.init({
@@ -21,6 +22,17 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'Incubator',
+    hooks: {
+      beforeCreate: (instance) => {
+        if(instance.level === 'International') {
+          instance.code = `1992-A-${new Date().getTime()}`
+        } else if (instance.level === 'National') {
+          instance.code = `1994-B-${new Date().getTime()}`
+        } else {
+          instance.code = `1996-C-${new Date().getTime()}`
+        }
+      }
+    }
   });
   return Incubator;
 };

@@ -11,6 +11,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      StartUp.belongsTo(models.Incubator, {foreignKey : 'IncubatorId'})
     }
   }
   StartUp.init({
