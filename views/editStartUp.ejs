@@ -7,16 +7,17 @@
             <%= errors %>
         </p>
     </center>
-    <form class="max-w-2xl mx-auto" action="/incubators/<%= data.id %>/startUp/add" method="post">
-        <h2 class="text-4xl font-extrabold dark:text-white">Add New Start-Up</h2>
+    <%= JSON.stringify(data) %>
+    <form class="max-w-2xl mx-auto" action="/incubators/<%= data.IncubatorId %>/startUp/<%= data.id %>/edit" method="post">
+        <h2 class="text-4xl font-extrabold dark:text-white">Edit New Start-Up</h2>
         <p class="my-4 text-lg text-gray-500">Incubator name : <%= data.name %></p>
         <div class="mb-5">
             <label for="startUpName" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Start-Up Name</label>
-            <input name="startUpName" type="text" id="startUpName" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
+            <input value="<%= data.startUpName %>" name="startUpName" type="text" id="startUpName" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
         </div>
         <div class="mb-5">
             <label for="founderName" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Founder Name</label>
-            <input name="founderName" type="text" id="founderName" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
+            <input value="<%= data.founderName %>" name="founderName" type="text" id="founderName" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
         </div>
         
         <div class="relative mb-5">
@@ -25,17 +26,19 @@
                 <path d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z"/>
             </svg>
             </div>
-            <input name="dateFound" datepicker id="default-datepicker" type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="dd/mm/yyyy">
+            <%= data.dateFound %>
+            <%= data.dateFound.toISOString().split('T')[0] %>
+            <input value="<%= data.dateFound.toISOString().split('T')[0] %>" name="dateFound" id="default-datepicker" type="date" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
         </div>
   
         <div class="mb-5">
             <label for="countries" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Education of Founder</label>
             <select name="educationOfFounder" id="countries" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                 <option selected disabled>Choose an education</option>
-                <option value="SMA">SMA</option>
-                <option value="S1">S1</option>
-                <option value="S2">S2</option>
-                <option value="S3">S3</option>
+                <% let educations = ['SMA', 'S1', 'S2', 'S3'] %>
+                <% educations.forEach(el => { %>
+                    <option value="<%= el %>" <%= el === data.educationOfFounder ? 'selected' : '' %>><%= el %></option>
+                <% }) %>
             </select>
         </div>
     <fieldset>
@@ -44,7 +47,7 @@
         <label for="roleOfFounder" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Role of Founder</label>
         <% roleOfFounder.forEach(el => { %>
             <div class="flex items-center mb-4">
-                <input id="<%= el %>" type="radio" name="roleOfFounder" value="<%= el %>" class="w-4 h-4 border-gray-300 focus:ring-2 focus:ring-blue-300 dark:focus:ring-blue-600 dark:focus:bg-blue-600 dark:bg-gray-700 dark:border-gray-600">
+                <input id="<%= el %>" type="radio" name="roleOfFounder" value="<%= el %>" <%= el === data.roleOfFounder ? 'checked' : '' %> class="w-4 h-4 border-gray-300 focus:ring-2 focus:ring-blue-300 dark:focus:ring-blue-600 dark:focus:bg-blue-600 dark:bg-gray-700 dark:border-gray-600">
                 <label for="<%= el %>" class="block ms-2  text-sm font-medium text-gray-900 dark:text-gray-300">
                     <%= el %>
                 </label>
@@ -53,9 +56,9 @@
     </fieldset>
     <div class="mb-5">
         <label for="valuation" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Valuation</label>
-        <input name="valuation" type="number" id="valuation" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
+        <input name="valuation" type="number" id="valuation" value="<%= data.valuation %>" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
     </div>
-    <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Add Start-Up</button>
+    <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Update Start-Up</button>
     </form>
     <script src="https://cdn.jsdelivr.net/npm/flowbite@2.4.1/dist/flowbite.min.js"></script>
 </html>

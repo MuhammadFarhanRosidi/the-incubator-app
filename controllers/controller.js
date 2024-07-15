@@ -42,12 +42,13 @@ class Controller {
     static async showDetailIncubator(req, res) {
         try {
             let {incubatorId} = req.params
+            let {notif} = req.query
             let data = await Incubator.findByPk(+incubatorId, {
                 include: {
                     model: StartUp
                 }
             })
-            res.render('incubatorDetail', {data, rupiah, sumValuation})
+            res.render('incubatorDetail', {data, rupiah, sumValuation, notif})
         } catch (error) {
             res.send(error)
         }
@@ -56,12 +57,13 @@ class Controller {
     static async renderAddStartUp(req, res) {
         try {
             let {incubatorId} = req.params
+            let {errors} = req.query
             let data = await Incubator.findByPk(+incubatorId, {
                 include: {
                     model: StartUp
                 }
             })
-            res.render('addStartUp', {data})
+            res.render('addStartUp', {data, errors})
         } catch (error) {
             res.send(error)
         }
@@ -74,13 +76,26 @@ class Controller {
             await StartUp.create({startUpName, founderName, dateFound, educationOfFounder, roleOfFounder, valuation, IncubatorId : incubatorId})
             res.redirect(`/incubators/${incubatorId}`)
         } catch (error) {
-            res.send(error)
+            let {incubatorId} = req.params
+            if(error.name === 'SequelizeValidationError') {
+                let errors = error.errors.map(el => el.message )
+                res.redirect(`/incubators/${incubatorId}/startUp/add?errors=${errors}`)
+            } else {
+                res.send(error)
+            }
         }
     }
 
     static async renderEditStartUp(req, res) {
         try {
-            
+            let {incubatorId, startUpId} = req.params
+            let {errors} = req.query
+            let data = await StartUp.findByPk(+startUpId, {
+                include: {
+                    model: Incubator
+                }
+            })
+            res.render('editStartUp', {data, errors})
         } catch (error) {
             res.send(error)
         }
@@ -88,7 +103,23 @@ class Controller {
 
     static async handlerEditStartUp(req, res) {
         try {
-            
+            let {incubatorId, startUpId} = req.params
+            let {startUpName, founderName, dateFound, educationOfFounder, roleOfFounder, valuation} = req.body
+            await StartUp.update(
+                {
+                    startUpName,
+                    founderName,
+                    dateFound,
+                    educationOfFounder,
+                    roleOfFounder,
+                    valuation
+                },
+                { where : {
+                    IncubatorId : incubatorId
+                    }
+                }
+            )
+            res.redirect(`/incubators/${incubatorId}`)
         } catch (error) {
             res.send(error)
         }
@@ -96,7 +127,20 @@ class Controller {
 
     static async deleteStartUp(req, res) {
         try {
-            
+            let {incubatorId, startUpId} = req.params
+            let data = await StartUp.findByPk(+startUpId, {
+                include: {
+                    model: Incubator
+                }
+            })
+            await StartUp.destroy({
+                where: {
+                    IncubatorId : incubatorId,
+                    id : startUpId
+                }
+            })
+            let notif = `Start-Up ${data.startUpName} with ${data.founderName} has been removed`
+            res.redirect(`/incubators/${incubatorId}?notif=${notif}`)
         } catch (error) {
             res.send(error)
         }

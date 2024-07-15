@@ -1,5 +1,8 @@
 <%- include('./partial/_head.ejs', {title: 'The Incubator Detail'}) %>
 <body>
+    <% if (notif) { %>
+        <p style="color: red;"><%= notif %></p>
+    <% } %>
     <%- include('./partial/_navbar.ejs', {page: 'home'}) %>
     <div class="container mx-auto px-4">    
             <h2 class="text-4xl font-extrabold dark:text-white"><%= data.name %></h2>
@@ -50,7 +53,7 @@
                             <%= el.founderName %>
                         </td>
                         <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                            <%= new Date().getFullYear() - new Date(el.dateFound).getFullYear() %>
+                            <%= el.formatAge %>
                         </td>
                         <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                             <%= el.educationOfFounder %>
@@ -62,8 +65,8 @@
                             <%= rupiah(el.valuation) %>
                         </td>
                         <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                            <a href="" class="text-gray-900 hover:text-white border border-gray-800 hover:bg-gray-900 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-gray-600 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-800">Edit</a>
-                            <a href="" class="text-red-700 hover:text-white border border-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:hover:bg-red-600 dark:focus:ring-red-900">Delete</a>
+                            <a href="/incubators/<%= el.IncubatorId %>/startUp/<%= el.id %>/edit" class="text-gray-900 hover:text-white border border-gray-800 hover:bg-gray-900 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-gray-600 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-800">Edit</a>
+                            <a href="/incubators/<%= el.IncubatorId %>/startUp/<%= el.id %>/delete" class="text-red-700 hover:text-white border border-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:hover:bg-red-600 dark:focus:ring-red-900">Delete</a>
                         </td>
                       </tr>
                     <% }) %>
