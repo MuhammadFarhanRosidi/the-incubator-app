@@ -121,7 +121,13 @@ class Controller {
             )
             res.redirect(`/incubators/${incubatorId}`)
         } catch (error) {
-            res.send(error)
+            let {incubatorId, startUpId} = req.params
+            if(error.name === 'SequelizeValidationError') {
+                let errors = error.errors.map(el => el.message )
+                res.redirect(`/incubators/${incubatorId}/startUp/${startUpId}/edit?errors=${errors}`)
+            } else {
+                res.send(error)
+            }
         }
     }
 
