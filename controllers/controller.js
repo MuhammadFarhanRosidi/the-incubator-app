@@ -148,8 +148,12 @@ class Controller {
 
     static async showDataStartUp(req, res) {
         try {
-            
+            let {filter} = req.query
+            let data = await StartUp.getStartUpByRoleOfFounder(filter)
+            console.log(data)
+            res.render('startUp', {data})
         } catch (error) {
+            console.log(error)
             res.send(error)
         }
     }

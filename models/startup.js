@@ -1,6 +1,6 @@
 'use strict';
 const {
-  Model
+  Model, Op
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class StartUp extends Model {
@@ -9,6 +9,29 @@ module.exports = (sequelize, DataTypes) => {
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
+    static async getStartUpByRoleOfFounder(filter) {
+      try {
+        let option = {}
+            if(filter) {
+                option.where = {
+                    roleOfFounder: {
+                        [Op.eq]: `${filter}`
+                    }
+                }
+            }
+            option.include = [
+                { 
+                    model : sequelize.models.Incubator,
+                    required: true,
+                }
+            ]
+            option.order = [["valuation", "DESC"]]
+            let data = await StartUp.findAll(option)
+            return data
+      } catch (error) {
+        throw (error)
+      }
+    }
     get formatAge() {
       return new Date().getFullYear() - new Date(this.dateFound).getFullYear()
     }

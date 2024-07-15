@@ -1,0 +1,58 @@
+<%- include('./partial/_head.ejs', {title: 'The Start-Up'}) %>
+<body>
+  <%- include('./partial/_navbar.ejs', {page: 'startUp'}) %>
+    <center>
+        <h1>Start-Up</h1>
+    </center>
+    <a href="/startUp">All</a>
+    <a href="/startUp?filter=Hustler">Hustler</a>
+    <a href="/startUp?filter=Hipster">Hipster</a>
+    <a href="/startUp?filter=Hacker">Hacker</a>
+    <div class="container mx-auto px-4">
+        <div class="relative overflow-x-auto">
+          <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+              <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                  <tr>
+                      <th scope="col" class="px-6 py-3">
+                          Start-Up and Founder Name
+                      </th>
+                      <th scope="col" class="px-6 py-3">
+                          Role of Founder
+                      </th>
+                      <th scope="col" class="px-6 py-3">
+                          Valuation
+                      </th>
+                      <th scope="col" class="px-6 py-3">
+                          Incubator Code
+                      </th>
+                      <th scope="col" class="px-6 py-3">
+                          Action
+                      </th>
+                  </tr>
+              </thead>
+              <tbody>
+                <% data.forEach(el => { %>
+                    <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                            <%= el.startUpName %> - <%= el.founderName %>
+                        </th>
+                        <td class="px-6 py-4">
+                            <%= el.roleOfFounder %>
+                        </td>
+                        <td class="px-6 py-4">
+                            <%= el.valuation %>
+                        </td>
+                        <td class="px-6 py-4">
+                            <%= el.Incubator.code %>
+                        </td>
+                        <td class="px-6 py-4">
+                            <a href="/incubators/<%= el.IncubatorId %>/startUp/<%= el.id %>/delete" type="button" class="py-2.5 px-5 me-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Delete</a>
+                        </td>
+                    </tr>
+                <% }) %>
+              </tbody>
+          </table>
+        </div>
+      </div>
+</body>
+</html>
