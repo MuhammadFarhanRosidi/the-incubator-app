@@ -2,11 +2,14 @@
 <body>
     <%- include('./partial/_navbar.ejs', {page: 'addIncubator'}) %>
 </body>
-    <center>
-        <p style="color: red;">
-            <%= errors %>
-        </p>
-    </center>
+<% if (errors) { %>
+    <% errors = errors.split(',') %>
+    <% errors = errors.forEach(el => { %>
+        <center>
+            <p style="color: red;"><%= el %></p>
+        </center>
+    <% }) %>
+<% } %>
     <form class="max-w-2xl mx-auto" action="/incubators/<%= data.id %>/startUp/add" method="post">
         <h2 class="text-4xl font-extrabold dark:text-white">Add New Start-Up</h2>
         <p class="my-4 text-lg text-gray-500">Incubator name : <%= data.name %></p>

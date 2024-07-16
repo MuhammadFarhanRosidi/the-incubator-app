@@ -78,7 +78,7 @@ class Controller {
         } catch (error) {
             let {incubatorId} = req.params
             if(error.name === 'SequelizeValidationError') {
-                let errors = error.errors.map(el => el.message )
+                let errors = error.errors.map(el => el.message)
                 res.redirect(`/incubators/${incubatorId}/startUp/add?errors=${errors}`)
             } else {
                 res.send(error)
@@ -156,10 +156,8 @@ class Controller {
         try {
             let {filter} = req.query
             let data = await StartUp.getStartUpByRoleOfFounder(filter)
-            console.log(data)
             res.render('startUp', {data})
         } catch (error) {
-            console.log(error)
             res.send(error)
         }
     }

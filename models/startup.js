@@ -116,7 +116,18 @@ module.exports = (sequelize, DataTypes) => {
         },
       },
     },
-    IncubatorId: DataTypes.INTEGER,
+    IncubatorId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      validate: {
+        notNull: {
+          msg: 'Please enter IncubatorId',
+        },
+        notEmpty: {
+          msg: 'Please enter IncubatorId',
+        },
+      },
+    },
     valuation: {
       type: DataTypes.INTEGER,
       allowNull: false,

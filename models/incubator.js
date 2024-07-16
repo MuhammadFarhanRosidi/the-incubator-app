@@ -28,7 +28,7 @@ module.exports = (sequelize, DataTypes) => {
           instance.code = `1992-A-${new Date().getTime()}`
         } else if (instance.level === 'National') {
           instance.code = `1994-B-${new Date().getTime()}`
-        } else {
+        } else if (instance.level === 'Province') {
           instance.code = `1996-C-${new Date().getTime()}`
         }
       }
