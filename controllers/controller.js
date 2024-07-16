@@ -115,7 +115,8 @@ class Controller {
                     valuation
                 },
                 { where : {
-                    IncubatorId : incubatorId
+                    IncubatorId : incubatorId,
+                    id : startUpId
                     }
                 }
             )
